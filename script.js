@@ -87,7 +87,7 @@ yesBtn.addEventListener("click", () => {
     <h1>Valentine secured 💘</h1>
     <p class="question">
       I already knew 😌💕<br><br>
-      Bae, thank you for being the best girlfriend/bsf/wife I could ever ask for!!.<br>
+      Bae, thank you for being the best girlfriend/bsf/wife I could ever ask for!!<br>
       You make my life better just by being in it. I LOVE YOUUUUUUUU
     </p>
     <img 
