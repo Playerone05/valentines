@@ -1,0 +1,118 @@
+// Text Animation
+
+// SVG HEART ANIMATION USING d3 and GSAP
+var paper = d3.select("#canvas");
+var wsvg = $("#canvas").width();
+var hsvg = $("#canvas").height();
+
+var d = Math.ceil((Math.floor(Math.random() * 700) + 100) / 10) * 10;
+var count = 0;
+
+function rNumTime() {
+  d = Math.ceil((Math.floor(Math.random() * 600) + 100) / 10) * 10;
+}
+
+setInterval(function () {
+  count++;
+  var x = Math.floor(Math.random() * (wsvg - 100)) + 50;
+  var y = Math.floor(Math.random() * (hsvg - 100)) + 50;
+  var b = paper
+    .append("use")
+    .attr("xlink:href", "#heart")
+    .attr("id", "h" + count)
+    .attr("transform", "translate(" + x + ", " + y + ")");
+  setTimeLine();
+  rNumTime();
+}, d);
+
+function setTimeLine() {
+  var s = (Math.random() * (0.7 - 0.2) + 0.5).toFixed(1);
+  var heart = $("#h" + count);
+
+  var tl = new TimelineMax({ repeat: 1, yoyo: true });
+
+  tl.from(heart, 0.7, { scale: 0, transformOrigin: "50% 50%" })
+    .to(heart, 0.7, { scale: s, transformOrigin: "50% 50%" })
+    .to(heart, 0.3, { scale: 1, transformOrigin: "50% 50%", opacity: 0 });
+  // Tried an onComplete here but it wasn't working properly, this was just the easier know-how
+  setTimeout(function () {
+    remove(heart);
+  }, 1700);
+}
+
+function remove(h) {
+  h.remove();
+}
+
+$(window).on("resize", function () {
+  wsvg = $("#canvas").width();
+  hsvg = $("#canvas").height();
+});
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+
+let yesScale = 1;
+let noIndex = 0;
+
+const noTexts = [
+  "No 😐",
+  "Be fr 😭",
+  "Zaniyah pls",
+  "You know better!!",
+  "Okay now you’re lying",
+  "Just press yes already 🙄",
+  ">:("
+];
+
+// Controlled dodge so layout stays clean
+noBtn.addEventListener("mouseover", () => {
+  const maxX = 120;
+  const maxY = 80;
+
+  const x = Math.random() * maxX * 2 - maxX;
+  const y = Math.random() * maxY * 2 - maxY;
+
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+  noBtn.textContent = noTexts[noIndex % noTexts.length];
+  noIndex++;
+
+  yesScale += 0.08;
+  yesBtn.style.transform = `scale(${yesScale})`;
+});
+
+// YES button → GIF + message
+yesBtn.addEventListener("click", () => {
+  document.querySelector(".overlay").innerHTML = `
+    <h1>Valentine secured 💘</h1>
+    <p class="question">
+      I already knew 😌💕<br><br>
+      Bae, thank you for being the best girlfriend/bsf/wife I could ever ask for!!.<br>
+      You make my life better just by being in it. I LOVE YOUUUUUUUU
+    </p>
+    <img 
+      src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif"
+      alt="cute gif"
+      style="width:220px; border-radius:18px; margin-top:20px;"
+    />
+  `;
+
+  softConfettiBurst();
+});
+function softConfettiBurst() {
+  const emojis = ["💖", "✨", "💘"];
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+
+  for (let i = 0; i < 16; i++) {
+    const conf = document.createElement("div");
+    conf.className = "confetti";
+    conf.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+    conf.style.left = centerX + Math.random() * 80 - 40 + "px";
+    conf.style.top = centerY + Math.random() * 40 - 20 + "px";
+
+    document.body.appendChild(conf);
+    setTimeout(() => conf.remove(), 1600);
+  }
+}
